@@ -23,6 +23,8 @@ class block_evokefeed extends block_base {
      * @return stdClass The block contents.
      */
     public function get_content() {
+        global $USER;
+
         if ($this->content !== null) {
             return $this->content;
         }
@@ -37,7 +39,7 @@ class block_evokefeed extends block_base {
 
         $renderer = $this->page->get_renderer('block_evokefeed');
 
-        $contentrenderable = new \block_evokefeed\output\block();
+        $contentrenderable = new \block_evokefeed\output\block($USER, $this->page->course);
 
         $this->content->text = $renderer->render($contentrenderable);
 

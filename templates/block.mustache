@@ -1,12 +1,11 @@
 <div class="block-evokefeed">
     <ul class="list-group">
-        <li class="list-group-item"><i class="fa fa-at"></i> John mentioned you</li>
-        <li class="list-group-item"><i class="fa fa-thumbs-o-up"></i> Mark liked your evidence</li>
-        <li class="list-group-item"><i class="fa fa-commenting-o"></i> Martine commented</li>
-        <li class="list-group-item"><i class="fa fa-commenting-o"></i> Bob commented</li>
-        <li class="list-group-item"><i class="fa fa-thumbs-o-up"></i> Iñaki liked your evidence</li>
-        <li class="list-group-item"><i class="fa fa-heart-o"></i> You won 10 points</li>
-        <li class="list-group-item"><i class="fa fa-certificate"></i> You won a badge</li>
-        <li class="list-group-item"><i class="fa fa-btc"></i> You won 30 evocoins</li>
+        {{#data}}
+            <li class="list-group-item" data-id="{{id}}">
+                <a href="{{{url}}}">
+                    <i class="fa {{{icon}}}"></i> {{{text}}}
+                </a>
+            </li>
+        {{/data}}
     </ul>
 </div>

@@ -13,3 +13,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Evoke Feed';
 $string['privacy:metadata'] = 'Evoke Feed does not store any personal data';
+
+$string['portfolio_comment_string'] = '{$a} commented';
+$string['portfolio_like_string'] = '{$a} liked your evidence';
+$string['portfolio_wonpoints_string'] = ' You won {$a} points';
+$string['portfolio_wonevocoins_string'] = 'You won {$a} evocoins';
+$string['portfolio_wonbadge_string'] = ' You won a badge';

@@ -12,6 +12,10 @@ namespace block_evokefeed\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use block_evokefeed\datasource\badge;
+use block_evokefeed\datasource\evocoin;
+use block_evokefeed\datasource\portfolio;
+use block_evokefeed\datasource\skillpoint;
 use renderable;
 use templatable;
 use renderer_base;
@@ -25,6 +29,13 @@ use renderer_base;
  */
 class block implements renderable, templatable {
 
+    protected $user;
+    protected $course;
+    public function __construct($user, $course) {
+        $this->user = $user;
+        $this->course = $course;
+    }
+
     /**
      * Export the data.
      *
@@ -37,6 +48,33 @@ class block implements renderable, templatable {
      * @throws \dml_exception
      */
     public function export_for_template(renderer_base $output) {
-        return [];
+        return [
+            'data' => $this->get_data_from_sources()
+        ];
+    }
+
+    private function get_data_from_sources() {
+        $portfoliosource = new portfolio();
+        $skillpointsource = new skillpoint();
+        $evocoinsource = new evocoin();
+        $badgesource = new badge();
+
+        $comments = $portfoliosource->get_user_course_comment_feed($this->user->id, $this->course->id);
+        $likes = $portfoliosource->get_user_course_like_feed($this->user->id, $this->course->id);
+        $skilpoints = $skillpointsource->get_user_course_points_feed($this->user->id, $this->course->id);
+        $evocoins = $evocoinsource->get_user_course_coins_feed($this->user->id, $this->course->id);
+        $badges = $badgesource->get_user_course_badge_feed($this->user->id, $this->course->id);
+
+        $data = array_merge($comments, $likes, $skilpoints, $evocoins, $badges);
+
+        usort($data, function($a, $b) {
+            if ($a['timecreated'] == $b['timecreated']) {
+                return 0;
+            }
+
+            return ($a['timecreated'] > $b['timecreated']) ? -1 : 1;
+        });
+
+        return $data;
     }
 }
