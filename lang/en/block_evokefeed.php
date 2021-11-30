@@ -16,6 +16,6 @@ $string['privacy:metadata'] = 'Evoke Feed does not store any personal data';
 
 $string['portfolio_comment_string'] = '{$a} commented';
 $string['portfolio_like_string'] = '{$a} liked your evidence';
-$string['portfolio_wonpoints_string'] = ' You won {$a} points';
-$string['portfolio_wonevocoins_string'] = 'You won {$a} evocoins';
-$string['portfolio_wonbadge_string'] = ' You won a badge';
+$string['portfolio_earnedpoints_string'] = ' You earned {$a} points';
+$string['portfolio_earnedevocoins_string'] = 'You earned {$a} evocoins';
+$string['portfolio_earnedbadge_string'] = ' You earned a badge';

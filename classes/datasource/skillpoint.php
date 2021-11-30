@@ -36,7 +36,7 @@ class skillpoint {
                 'id' => $record->id,
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-heart-o',
-                'text' => get_string('portfolio_wonpoints_string', 'block_evokefeed', (int)$record->points),
+                'text' => get_string('portfolio_earnedpoints_string', 'block_evokefeed', (int)$record->points),
                 'url' => $url
             ];
         }

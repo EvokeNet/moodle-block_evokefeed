@@ -37,7 +37,7 @@ class badge {
                 'id' => $record->id,
                 'timecreated' => $record->dateissued,
                 'icon' => 'fa-certificate',
-                'text' => get_string('portfolio_wonbadge_string', 'block_evokefeed'),
+                'text' => get_string('portfolio_earnedbadge_string', 'block_evokefeed'),
                 'url' => $url
             ];
         }

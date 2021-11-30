@@ -36,7 +36,7 @@ class evocoin {
                 'id' => $record->id,
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-bitcoin',
-                'text' => get_string('portfolio_wonevocoins_string', 'block_evokefeed', (int)$record->coins),
+                'text' => get_string('portfolio_earnedevocoins_string', 'block_evokefeed', (int)$record->coins),
                 'url' => $url
             ];
         }
