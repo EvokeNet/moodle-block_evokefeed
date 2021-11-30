@@ -67,6 +67,10 @@ class block implements renderable, templatable {
 
         $data = array_merge($comments, $likes, $skilpoints, $evocoins, $badges);
 
+        if (!$data) {
+            return [];
+        }
+
         usort($data, function($a, $b) {
             if ($a['timecreated'] == $b['timecreated']) {
                 return 0;
