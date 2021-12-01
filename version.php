@@ -12,7 +12,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_evokefeed';
 $plugin->release = '0.0.1';
-$plugin->version = 2021112900;
+$plugin->version = 2021113000;
 $plugin->requires = 2021051700;
 $plugin->maturity = MATURITY_BETA;
 $plugin->dependencies = [

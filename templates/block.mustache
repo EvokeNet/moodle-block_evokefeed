@@ -1,4 +1,12 @@
-<div class="block-evokefeed">
+<div class="block-evokefeed"
+     data-courseid="{{{courseid}}}"
+     data-limitcomments="0"
+     data-limitlikes="0"
+     data-limitskilpoints="0"
+     data-limitevocoins="0"
+     data-limitbadges="0"
+     data-hasmoreitems="true">
+
     <ul class="list-group">
         {{#data}}
             <a href="{{{url}}}" class="list-group-item list-group-item-action">
@@ -9,7 +17,7 @@
 </div>
 
 {{#js}}
-    require(['block_evokefeed/evokefeed'], function(EvokeFeed) {
-        EvokeFeed.init();
+    require(['block_evokefeed/load'], function(Load) {
+        Load.init();
     });
 {{/js}}
