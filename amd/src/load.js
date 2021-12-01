@@ -20,7 +20,7 @@ define(['core/ajax'], function(Ajax) {
 
             var hasmoreitems = event.target.dataset.hasmoreitems === 'true';
 
-            if(scrollTop + offsetHeight > scrollHeight - 5) {
+            if(scrollTop + offsetHeight > scrollHeight - 40) {
                 if (!hasmoreitems) {
                     return;
                 }
