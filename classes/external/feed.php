@@ -80,40 +80,17 @@ class feed extends external_api {
         $evocoins = $evocoinsource->get_user_course_coins_feed($USER->id, $courseid, $limitevocoins);
         $badges = $badgesource->get_user_course_badge_feed($USER->id, $courseid, $limitbadges);
 
-        if ($comments) {
-            $limitcomments = current($comments)['id'];
-        }
-
-        if ($likes) {
-            $limitlikes = current($likes)['id'];
-        }
-
-        if ($skilpoints) {
-            $limitskilpoints = current($skilpoints)['id'];
-        }
-
-        if ($evocoins) {
-            $limitevocoins = current($evocoins)['id'];
-        }
-
-        if ($badges) {
-            $limitbadges = current($badges)['id'];
-        }
-
         $sourcesdata = array_merge($comments, $likes, $skilpoints, $evocoins, $badges);
 
         if (!$sourcesdata) {
             $hasmoreitems = false;
         }
 
+        $feedutil = new \block_evokefeed\util\feed();
+
         $returndata = [
-            'limitcomments' => $limitcomments,
-            'limitlikes' => $limitlikes,
-            'limitskilpoints' => $limitskilpoints,
-            'limitevocoins' => $limitevocoins,
-            'limitbadges' => $limitbadges,
             'hasmoreitems' => $hasmoreitems,
-            'items' => $sourcesdata
+            'items' => $feedutil->sort_data($sourcesdata)
         ];
 
         return [

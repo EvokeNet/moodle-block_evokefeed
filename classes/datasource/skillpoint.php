@@ -19,9 +19,21 @@ class skillpoint {
         $sql = 'SELECT id, points, timecreated
                 FROM {evokegame_logs}
                 WHERE userid = :userid AND courseid = :courseid
-                ORDER BY id DESC';
+                ORDER BY id DESC
+                LIMIT ' . $limitnum;
 
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid], $limitfrom, $limitnum);
+        $params = [
+            'userid' => $userid,
+            'courseid' => $courseid,
+        ];
+
+        if ($limitfrom) {
+            $offset = $limitfrom * $limitnum;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $records = $DB->get_records_sql($sql, $params);
 
         if (!$records) {
             return [];
@@ -37,7 +49,7 @@ class skillpoint {
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-heart-o',
                 'text' => get_string('portfolio_earnedpoints_string', 'block_evokefeed', (int)$record->points),
-                'url' => $url
+                'url' => $url->out()
             ];
         }
 

@@ -19,9 +19,21 @@ class evocoin {
         $sql = "SELECT id, coins, timecreated
                 FROM {evokegame_evcs_transactions}
                 WHERE userid = :userid AND courseid = :courseid AND action = 'in'
-                ORDER BY id DESC";
+                ORDER BY id DESC
+                LIMIT " . $limitnum;
 
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid], $limitfrom, $limitnum);
+        $params = [
+            'userid' => $userid,
+            'courseid' => $courseid,
+        ];
+
+        if ($limitfrom) {
+            $offset = $limitfrom * $limitnum;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $records = $DB->get_records_sql($sql, $params);
 
         if (!$records) {
             return [];
@@ -37,7 +49,7 @@ class evocoin {
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-bitcoin',
                 'text' => get_string('portfolio_earnedevocoins_string', 'block_evokefeed', (int)$record->coins),
-                'url' => $url
+                'url' => $url->out()
             ];
         }
 

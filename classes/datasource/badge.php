@@ -16,13 +16,25 @@ class badge {
     public function get_user_course_badge_feed($userid, $courseid, $limitfrom = 0, $limitnum = 5) {
         global $DB;
 
-        $sql = "SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash
+        $sql = 'SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash
                 FROM {badge_issued} bi
                 INNER JOIN {badge} b ON bi.badgeid = b.id
                 WHERE bi.userid = :userid AND b.courseid = :courseid
-                ORDER BY bi.id DESC";
+                ORDER BY bi.id DESC
+                LIMIT ' . $limitnum;
 
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid], $limitfrom, $limitnum);
+        $params = [
+            'userid' => $userid,
+            'courseid' => $courseid,
+        ];
+
+        if ($limitfrom) {
+            $offset = $limitfrom * $limitnum;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $records = $DB->get_records_sql($sql, $params);
 
         if (!$records) {
             return [];
@@ -38,7 +50,7 @@ class badge {
                 'timecreated' => $record->dateissued,
                 'icon' => 'fa-certificate',
                 'text' => get_string('portfolio_earnedbadge_string', 'block_evokefeed'),
-                'url' => $url
+                'url' => $url->out()
             ];
         }
 

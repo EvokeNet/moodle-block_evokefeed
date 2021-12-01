@@ -15,7 +15,6 @@ defined('MOODLE_INTERNAL') || die();
 use renderable;
 use templatable;
 use renderer_base;
-use block_evokefeed\util\feed;
 
 /**
  * Evoke feed block renderable class.
@@ -25,12 +24,9 @@ use block_evokefeed\util\feed;
  * @author      Willian Mano <willianmanoaraujo@gmail.com>
  */
 class block implements renderable, templatable {
-
-    protected $user;
     protected $course;
 
-    public function __construct($user, $course) {
-        $this->user = $user;
+    public function __construct($course) {
         $this->course = $course;
     }
 
@@ -46,11 +42,8 @@ class block implements renderable, templatable {
      * @throws \dml_exception
      */
     public function export_for_template(renderer_base $output) {
-        $feed = new feed();
-
         return [
-            'courseid' => $this->course->id,
-            'data' => $feed->get_data_from_sources($this->user->id, $this->course->id)
+            'courseid' => $this->course->id
         ];
     }
 }

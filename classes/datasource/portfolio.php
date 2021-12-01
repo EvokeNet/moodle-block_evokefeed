@@ -23,9 +23,21 @@ class portfolio {
                 INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
                 INNER JOIN {user} u ON u.id = c.userid
                 WHERE su.postedby = :userid AND p.course = :courseid
-                ORDER BY c.id DESC';
+                ORDER BY c.id DESC
+                LIMIT ' . $limitnum;
 
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid], $limitfrom, $limitnum);
+        $params = [
+            'userid' => $userid,
+            'courseid' => $courseid,
+        ];
+
+        if ($limitfrom) {
+            $offset = $limitfrom * $limitnum;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $records = $DB->get_records_sql($sql, $params);
 
         if (!$records) {
             return [];
@@ -43,7 +55,7 @@ class portfolio {
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-commenting-o',
                 'text' => get_string('portfolio_comment_string', 'block_evokefeed', $record->firstname),
-                'url' => $url
+                'url' => $url->out()
             ];
         }
 
@@ -60,9 +72,21 @@ class portfolio {
                 INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
                 INNER JOIN {user} u ON u.id = r.userid
                 WHERE su.postedby = :userid AND p.course = :courseid
-                ORDER BY r.id DESC';
+                ORDER BY r.id DESC
+                LIMIT ' . $limitnum;
 
-        $records = $DB->get_records_sql($sql, ['userid' => $userid, 'courseid' => $courseid], $limitfrom, $limitnum);
+        $params = [
+            'userid' => $userid,
+            'courseid' => $courseid,
+        ];
+
+        if ($limitfrom) {
+            $offset = $limitfrom * $limitnum;
+
+            $sql .= ' OFFSET ' . $offset;
+        }
+
+        $records = $DB->get_records_sql($sql, $params);
 
         if (!$records) {
             return [];
@@ -80,7 +104,7 @@ class portfolio {
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-thumbs-o-up',
                 'text' => get_string('portfolio_like_string', 'block_evokefeed', $record->firstname),
-                'url' => $url
+                'url' => $url->out()
             ];
         }
 
