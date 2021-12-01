@@ -1,11 +1,15 @@
 <div class="block-evokefeed">
     <ul class="list-group">
         {{#data}}
-            <li class="list-group-item" data-id="{{id}}">
-                <a href="{{{url}}}">
-                    <i class="fa {{{icon}}}"></i> {{{text}}}
-                </a>
-            </li>
+            <a href="{{{url}}}" class="list-group-item list-group-item-action">
+                <i class="fa {{{icon}}}"></i> {{{text}}}
+            </a>
         {{/data}}
     </ul>
 </div>
+
+{{#js}}
+    require(['block_evokefeed/evokefeed'], function(EvokeFeed) {
+        EvokeFeed.init();
+    });
+{{/js}}
