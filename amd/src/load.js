@@ -6,7 +6,6 @@
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
 
-/* eslint-disable */
 define(['core/ajax'], function(Ajax) {
     var EvokeFeed = function() {
         var blockdiv = document.querySelector('.block-evokefeed');
