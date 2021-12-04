@@ -11,8 +11,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Evoke Feed';
-$string['privacy:metadata'] = 'Evoke Feed does not store any personal data';
+$string['pluginname'] = 'Network Activity';
+$string['privacy:metadata'] = 'Network Activity Feed does not store any personal data';
 
 $string['portfolio_comment_string'] = '{$a} commented';
 $string['portfolio_like_string'] = '{$a} liked your evidence';
