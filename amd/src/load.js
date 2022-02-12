@@ -1,7 +1,8 @@
 /**
  * Add comment js logic.
  *
- * @package    mod_evokeportfolio
+ * @package
+ * @subpackage mod_evokeportfolio
  * @copyright  2021 World Bank Group <https://worldbank.org>
  * @author     Willian Mano <willianmanoaraujo@gmail.com>
  */
@@ -80,16 +81,20 @@ define(['core/ajax'], function(Ajax) {
                 url = url.replace(/&amp;/g, "&");
 
                 var listitem = document.createElement('a');
-                listitem.className = 'list-group-item list-group-item-action fadein';
+                listitem.className = 'list-group-item list-group-item-action flex-column align-items-start fadein';
                 listitem.href = url;
-                listitem.innerHTML = '<i class="fa '+element.icon+'"></i> ' + element.text;
+                listitem.innerHTML = '<div class="d-flex w-100 justify-content-between">' +
+                    '<h5 class="mb-1" ><img src="'+ element.userimg +'" class="mr-2">'+ element.userfullname +'</h5>' +
+                    '<small><i class="fa '+ element.icon +'"></i></small>' +
+                    '</div>' +
+                    '<p class="mb-0">'+ element.text +'</p>';
 
                 ulelement.appendChild(listitem);
             });
 
             this.wait = false;
         }.bind(this));
-    }
+    };
 
     return {
         'init': function() {

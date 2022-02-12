@@ -14,8 +14,8 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Network Activity';
 $string['privacy:metadata'] = 'Network Activity Feed does not store any personal data';
 
-$string['portfolio_comment_string'] = '{$a} commented';
-$string['portfolio_like_string'] = '{$a} liked your evidence';
-$string['portfolio_earnedpoints_string'] = ' You earned {$a} points';
-$string['portfolio_earnedevocoins_string'] = 'You earned {$a} EVCs';
-$string['portfolio_earnedbadge_string'] = ' You earned a badge';
+$string['portfolio_comment_string'] = '{$a} commented on a post';
+$string['portfolio_like_string'] = '{$a} liked an evidence';
+$string['portfolio_earnedpoints_string'] = 'Earned {$a} points';
+$string['portfolio_earnedevocoins_string'] = 'Earned {$a} EVCs';
+$string['portfolio_earnedbadge_string'] = 'Earned a badge';

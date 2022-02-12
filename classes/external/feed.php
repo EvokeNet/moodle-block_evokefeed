@@ -2,11 +2,7 @@
 
 namespace block_evokefeed\external;
 
-use block_evokefeed\datasource\badge;
-use block_evokefeed\datasource\evocoin;
-use block_evokefeed\datasource\portfolio;
-use block_evokefeed\datasource\skillpoint;
-use context;
+use block_evokefeed\util\feed as feedutil;
 use external_api;
 use external_value;
 use external_single_structure;
@@ -56,7 +52,7 @@ class feed extends external_api {
      * @throws \moodle_exception
      */
     public static function load($courseid, $limitcomments, $limitlikes, $limitskilpoints, $limitevocoins, $limitbadges, $hasmoreitems) {
-        global $USER;
+        global $PAGE;
 
         // We always must pass webservice params through validate_parameters.
         $params = self::validate_parameters(self::load_parameters(), [
@@ -69,18 +65,12 @@ class feed extends external_api {
             'hasmoreitems' => $hasmoreitems
         ]);
 
-        $portfoliosource = new portfolio();
-        $skillpointsource = new skillpoint();
-        $evocoinsource = new evocoin();
-        $badgesource = new badge();
+        $context = \context_course::instance($courseid);
+        $PAGE->set_context($context);
 
-        $comments = $portfoliosource->get_user_course_comment_feed($USER->id, $courseid, $limitcomments);
-        $likes = $portfoliosource->get_user_course_like_feed($USER->id, $courseid, $limitlikes);
-        $skilpoints = $skillpointsource->get_user_course_points_feed($USER->id, $courseid, $limitskilpoints);
-        $evocoins = $evocoinsource->get_user_course_coins_feed($USER->id, $courseid, $limitevocoins);
-        $badges = $badgesource->get_user_course_badge_feed($USER->id, $courseid, $limitbadges);
+        $feedutil = new feedutil();
 
-        $sourcesdata = array_merge($comments, $likes, $skilpoints, $evocoins, $badges);
+        $sourcesdata = $feedutil->get_data_from_sources($params);
 
         if (!$sourcesdata) {
             $hasmoreitems = false;

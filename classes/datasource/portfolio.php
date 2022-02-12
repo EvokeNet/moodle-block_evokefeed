@@ -10,24 +10,25 @@
 
 namespace block_evokefeed\datasource;
 
+use block_evokefeed\util\userimg;
+
 defined('MOODLE_INTERNAL') || die();
 
 class portfolio {
-    public function get_user_course_comment_feed($userid, $courseid, $limitfrom = 0, $limitnum = 5) {
-        global $DB;
+    public function get_user_course_comment_feed($courseid, $limitfrom = 0, $limitnum = 5) {
+        global $DB, $USER;
 
-        $sql = 'SELECT c.id, c.timecreated, p.course, u.firstname, u.lastname, p.id as portfolioid, se.id as sectionid
+        $sql = 'SELECT c.id, c.timecreated, p.course, u.id as userid, u.firstname, u.lastname, p.id as portfolioid, se.id as sectionid
                 FROM {evokeportfolio_comments} c
                 INNER JOIN {evokeportfolio_submissions} su ON su.id = c.submissionid
                 INNER JOIN {evokeportfolio_sections} se ON su.sectionid = se.id
                 INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
                 INNER JOIN {user} u ON u.id = c.userid
-                WHERE su.postedby = :userid AND p.course = :courseid
+                WHERE p.course = :courseid
                 ORDER BY c.id DESC
                 LIMIT ' . $limitnum;
 
         $params = [
-            'userid' => $userid,
             'courseid' => $courseid,
         ];
 
@@ -42,6 +43,8 @@ class portfolio {
         if (!$records) {
             return [];
         }
+
+        $userimg = userimg::get_instance();
 
         $data = [];
 
@@ -54,6 +57,8 @@ class portfolio {
                 'id' => $record->id,
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-commenting-o',
+                'userimg' => $userimg::get_image($record->userid),
+                'userfullname' => $userimg::get_fullname($record->userid),
                 'text' => get_string('portfolio_comment_string', 'block_evokefeed', $record->firstname),
                 'url' => $url->out()
             ];
@@ -62,21 +67,20 @@ class portfolio {
         return $data;
     }
 
-    public function get_user_course_like_feed($userid, $courseid, $limitfrom = 0, $limitnum = 5) {
+    public function get_user_course_like_feed($courseid, $limitfrom = 0, $limitnum = 5) {
         global $DB;
 
-        $sql = 'SELECT r.id, r.timecreated, p.course, u.firstname, u.lastname, p.id as portfolioid, se.id as sectionid
+        $sql = 'SELECT r.id, r.timecreated, p.course, u.id as userid, u.firstname, u.lastname, p.id as portfolioid, se.id as sectionid
                 FROM {evokeportfolio_reactions} r
                 INNER JOIN {evokeportfolio_submissions} su ON su.id = r.submissionid
                 INNER JOIN {evokeportfolio_sections} se ON su.sectionid = se.id
                 INNER JOIN {evokeportfolio} p ON p.id = se.portfolioid
                 INNER JOIN {user} u ON u.id = r.userid
-                WHERE su.postedby = :userid AND p.course = :courseid
+                WHERE p.course = :courseid
                 ORDER BY r.id DESC
                 LIMIT ' . $limitnum;
 
         $params = [
-            'userid' => $userid,
             'courseid' => $courseid,
         ];
 
@@ -92,6 +96,8 @@ class portfolio {
             return [];
         }
 
+        $userimg = userimg::get_instance();
+
         $data = [];
 
         foreach ($records as $record) {
@@ -103,6 +109,8 @@ class portfolio {
                 'id' => $record->id,
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-thumbs-o-up',
+                'userimg' => $userimg::get_image($record->userid),
+                'userfullname' => $userimg::get_fullname($record->userid),
                 'text' => get_string('portfolio_like_string', 'block_evokefeed', $record->firstname),
                 'url' => $url->out()
             ];

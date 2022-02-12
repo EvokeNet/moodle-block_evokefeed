@@ -10,20 +10,21 @@
 
 namespace block_evokefeed\datasource;
 
+use block_evokefeed\util\userimg;
+
 defined('MOODLE_INTERNAL') || die();
 
 class evocoin {
-    public function get_user_course_coins_feed($userid, $courseid, $limitfrom = 0, $limitnum = 5) {
+    public function get_user_course_coins_feed($courseid, $limitfrom = 0, $limitnum = 5) {
         global $DB;
 
-        $sql = "SELECT id, coins, timecreated
+        $sql = "SELECT id, coins, userid, timecreated
                 FROM {evokegame_evcs_transactions}
-                WHERE userid = :userid AND courseid = :courseid AND action = 'in'
+                WHERE courseid = :courseid AND action = 'in'
                 ORDER BY id DESC
                 LIMIT " . $limitnum;
 
         $params = [
-            'userid' => $userid,
             'courseid' => $courseid,
         ];
 
@@ -39,6 +40,8 @@ class evocoin {
             return [];
         }
 
+        $userimg = userimg::get_instance();
+
         $data = [];
 
         foreach ($records as $record) {
@@ -48,6 +51,8 @@ class evocoin {
                 'id' => $record->id,
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-bitcoin',
+                'userimg' => $userimg::get_image($record->userid),
+                'userfullname' => $userimg::get_fullname($record->userid),
                 'text' => get_string('portfolio_earnedevocoins_string', 'block_evokefeed', (int)$record->coins),
                 'url' => $url->out()
             ];

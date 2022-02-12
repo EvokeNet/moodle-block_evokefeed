@@ -10,20 +10,21 @@
 
 namespace block_evokefeed\datasource;
 
+use block_evokefeed\util\userimg;
+
 defined('MOODLE_INTERNAL') || die();
 
 class skillpoint {
-    public function get_user_course_points_feed($userid, $courseid, $limitfrom = 0, $limitnum = 5) {
+    public function get_user_course_points_feed($courseid, $limitfrom = 0, $limitnum = 5) {
         global $DB;
 
-        $sql = 'SELECT id, points, timecreated
+        $sql = 'SELECT id, points, userid, timecreated
                 FROM {evokegame_logs}
-                WHERE userid = :userid AND courseid = :courseid
+                WHERE courseid = :courseid
                 ORDER BY id DESC
                 LIMIT ' . $limitnum;
 
         $params = [
-            'userid' => $userid,
             'courseid' => $courseid,
         ];
 
@@ -39,6 +40,8 @@ class skillpoint {
             return [];
         }
 
+        $userimg = userimg::get_instance();
+
         $data = [];
 
         foreach ($records as $record) {
@@ -48,6 +51,8 @@ class skillpoint {
                 'id' => $record->id,
                 'timecreated' => $record->timecreated,
                 'icon' => 'fa-heart-o',
+                'userimg' => $userimg::get_image($record->userid),
+                'userfullname' => $userimg::get_fullname($record->userid),
                 'text' => get_string('portfolio_earnedpoints_string', 'block_evokefeed', (int)$record->points),
                 'url' => $url->out()
             ];

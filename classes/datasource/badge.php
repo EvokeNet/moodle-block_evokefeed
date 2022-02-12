@@ -10,21 +10,22 @@
 
 namespace block_evokefeed\datasource;
 
+use block_evokefeed\util\userimg;
+
 defined('MOODLE_INTERNAL') || die();
 
 class badge {
-    public function get_user_course_badge_feed($userid, $courseid, $limitfrom = 0, $limitnum = 5) {
+    public function get_user_course_badge_feed($courseid, $limitfrom = 0, $limitnum = 5) {
         global $DB;
 
         $sql = 'SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash
                 FROM {badge_issued} bi
                 INNER JOIN {badge} b ON bi.badgeid = b.id
-                WHERE bi.userid = :userid AND b.courseid = :courseid
+                WHERE b.courseid = :courseid
                 ORDER BY bi.id DESC
                 LIMIT ' . $limitnum;
 
         $params = [
-            'userid' => $userid,
             'courseid' => $courseid,
         ];
 
@@ -40,6 +41,8 @@ class badge {
             return [];
         }
 
+        $userimg = userimg::get_instance();
+
         $data = [];
 
         foreach ($records as $record) {
@@ -49,6 +52,8 @@ class badge {
                 'id' => $record->id,
                 'timecreated' => $record->dateissued,
                 'icon' => 'fa-certificate',
+                'userimg' => $userimg::get_image($record->userid),
+                'userfullname' => $userimg::get_fullname($record->userid),
                 'text' => get_string('portfolio_earnedbadge_string', 'block_evokefeed'),
                 'url' => $url->out()
             ];

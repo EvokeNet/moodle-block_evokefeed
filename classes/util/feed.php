@@ -18,17 +18,17 @@ use block_evokefeed\datasource\skillpoint;
 defined('MOODLE_INTERNAL') || die();
 
 class feed {
-    public function get_data_from_sources($userid, $courseid) {
+    public function get_data_from_sources($params) {
         $portfoliosource = new portfolio();
         $skillpointsource = new skillpoint();
         $evocoinsource = new evocoin();
         $badgesource = new badge();
 
-        $comments = $portfoliosource->get_user_course_comment_feed($userid, $courseid);
-        $likes = $portfoliosource->get_user_course_like_feed($userid, $courseid);
-        $skilpoints = $skillpointsource->get_user_course_points_feed($userid, $courseid);
-        $evocoins = $evocoinsource->get_user_course_coins_feed($userid, $courseid);
-        $badges = $badgesource->get_user_course_badge_feed($userid, $courseid);
+        $comments = $portfoliosource->get_user_course_comment_feed($params['courseid'], $params['limitcomments']);
+        $likes = $portfoliosource->get_user_course_like_feed($params['courseid'], $params['limitlikes']);
+        $skilpoints = $skillpointsource->get_user_course_points_feed($params['courseid'], $params['limitskilpoints']);
+        $evocoins = $evocoinsource->get_user_course_coins_feed($params['courseid'], $params['limitevocoins']);
+        $badges = $badgesource->get_user_course_badge_feed($params['courseid'], $params['limitbadges']);
 
         $data = array_merge($comments, $likes, $skilpoints, $evocoins, $badges);
 
