@@ -12,7 +12,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Network Activity';
-$string['privacy:metadata'] = 'Network Activity Feed does not store any personal data';
+$string['privacy:metadata'] = 'The Network Activity Feed does not store any personal data';
 
 $string['portfolio_comment_string'] = '{$a} commented on a post';
 $string['portfolio_like_string'] = '{$a} liked a portfolio post';
