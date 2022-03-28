@@ -18,4 +18,4 @@ $string['portfolio_comment_string'] = '{$a} comentó en un post';
 $string['portfolio_like_string'] = '{$a} le gustó una evidencia';
 $string['portfolio_earnedpoints_string'] = 'Ganó {$a} puntos';
 $string['portfolio_earnedevocoins_string'] = 'Ganó {$a} EVCs';
-$string['portfolio_earnedbadge_string'] = 'Earned a badge';
+$string['portfolio_earnedbadge_string'] = 'Logró una insignia';
