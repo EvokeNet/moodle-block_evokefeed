@@ -84,10 +84,12 @@ define(['core/ajax'], function(Ajax) {
                 listitem.className = 'list-group-item list-group-item-action flex-column align-items-start fadein';
                 listitem.href = url;
                 listitem.innerHTML = '<div class="d-flex w-100 justify-content-between">' +
-                    '<h5 class="mb-1" ><img src="'+ element.userimg +'" class="mr-2">'+ element.userfullname +'</h5>' +
-                    '<small><i class="fa '+ element.icon +'"></i></small>' +
-                    '</div>' +
-                    '<p class="mb-0">'+ element.text +'</p>';
+                    '<div class="images">' +
+                    '<img src="'+ element.userimg +'">' +
+                    '<i class="fa '+ element.icon +'"></i>' +
+                    '</div>'+
+                    '<p>'+ element.userfullname +' <small>'+element.text+'</small></p>' +
+                    '</div>';
 
                 ulelement.appendChild(listitem);
             });

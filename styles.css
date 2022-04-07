@@ -1,6 +1,20 @@
+.block_evokefeed.block {
+    background-color: #f0f0f0;
+}
+
 .block-evokefeed {
-    height: 400px;
-    overflow: scroll;
+    height: calc(100vh - 140px);
+    overflow-y: scroll;
+}
+
+.block-evokefeed .list-group-item {
+    background-color: initial;
+    border: none;
+}
+
+.block-evokefeed .list-group-item:hover,
+.block-evokefeed .list-group-item:focus {
+    background-color: #e6e6e6;
 }
 
 .block-evokefeed .fadein {
@@ -11,9 +25,32 @@
 }
 
 .block-evokefeed img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 100%;
+}
+
+.block-evokefeed .list-group-item .images {
+    position: relative;
+    width: 60px;
+}
+
+.block-evokefeed .list-group-item .images i {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+    text-align: center;
+    border-radius: 50%;
+    padding: 3px;
+    font-size: 10px;
+}
+
+.block-evokefeed .list-group-item p {
+    font-weight: 700;
+    margin-bottom: 0;
+    width: calc(100% - 60px);
 }
 
 @-webkit-keyframes block-evokefeed_fadein {

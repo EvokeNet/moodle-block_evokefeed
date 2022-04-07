@@ -11,11 +11,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_evokefeed';
-$plugin->release = '0.3.0';
-$plugin->version = 2022021100;
+$plugin->release = '0.4.0';
+$plugin->version = 2022040500;
 $plugin->requires = 2021051700;
-$plugin->maturity = MATURITY_BETA;
+$plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
-    'mod_evokeportfolio' => 2021112500,
+    'mod_evokeportfolio' => 2022032800,
     'local_evokegame' => 2022021000
 ];
