@@ -16,17 +16,18 @@ defined('MOODLE_INTERNAL') || die();
 
 class badge {
     public function get_user_course_badge_feed($courseid, $limitfrom = 0, $limitnum = 5) {
-        global $DB;
+        global $DB, $USER;
 
-        $sql = 'SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash
+        $sql = 'SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash, b.name
                 FROM {badge_issued} bi
                 INNER JOIN {badge} b ON bi.badgeid = b.id
-                WHERE b.courseid = :courseid
+                WHERE b.courseid = :courseid AND bi.userid = :userid
                 ORDER BY bi.id DESC
                 LIMIT ' . $limitnum;
 
         $params = [
             'courseid' => $courseid,
+            'userid' => $USER->id
         ];
 
         if ($limitfrom) {
@@ -54,7 +55,7 @@ class badge {
                 'icon' => 'fa-certificate',
                 'userimg' => $userimg::get_image($record->userid),
                 'userfullname' => $userimg::get_fullname($record->userid),
-                'text' => get_string('portfolio_earnedbadge_string', 'block_evokefeed'),
+                'text' => get_string('portfolio_earnedbadge_string', 'block_evokefeed', $record->name),
                 'url' => $url->out()
             ];
         }
