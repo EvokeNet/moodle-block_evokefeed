@@ -15,23 +15,26 @@ use block_evokefeed\util\userimg;
 defined('MOODLE_INTERNAL') || die();
 
 class portfolio {
-    public function get_user_course_comment_feed($courseid, $limitfrom = 0, $limitnum = 5) {
+    public function get_users_course_comment_feed($courseid, $users = [], $limitfrom = 0, $limitnum = 5) {
         global $DB, $USER;
 
         $sql = 'SELECT c.id, c.timecreated, p.course, u.id as userid, u.firstname, u.lastname, p.id as portfolioid
                 FROM {evokeportfolio_comments} c
-                INNER JOIN {evokeportfolio_submissions} su ON (su.id = c.submissionid AND su.userid = :userid)
+                INNER JOIN {evokeportfolio_submissions} su ON (su.id = c.submissionid)
                 INNER JOIN {evokeportfolio} p ON p.id = su.portfolioid
                 INNER JOIN {user} u ON u.id = c.userid
-                WHERE p.course = :courseid AND c.userid <> :userid2
-                ORDER BY c.id DESC
-                LIMIT ' . $limitnum;
+                WHERE p.course = :courseid AND c.userid <> :userid';
 
-        $params = [
-            'courseid' => $courseid,
-            'userid' => $USER->id,
-            'userid2' => $USER->id
-        ];
+        if (!empty($users)) {
+            list($insql, $inparams) = $DB->get_in_or_equal($users, SQL_PARAMS_NAMED);
+
+            $sql .= ' AND c.userid ' . $insql;
+        }
+
+        $sql .= ' ORDER BY c.id DESC LIMIT ' . $limitnum;
+
+        $inparams['courseid'] = $courseid;
+        $inparams['userid'] = $USER->id;
 
         if ($limitfrom) {
             $offset = $limitfrom * $limitnum;
@@ -39,7 +42,7 @@ class portfolio {
             $sql .= ' OFFSET ' . $offset;
         }
 
-        $records = $DB->get_records_sql($sql, $params);
+        $records = $DB->get_records_sql($sql, $inparams);
 
         if (!$records) {
             return [];
@@ -68,23 +71,26 @@ class portfolio {
         return $data;
     }
 
-    public function get_user_course_like_feed($courseid, $limitfrom = 0, $limitnum = 5) {
+    public function get_users_course_like_feed($courseid, $users = [], $limitfrom = 0, $limitnum = 5) {
         global $DB, $USER;
 
         $sql = 'SELECT r.id, r.timecreated, p.course, u.id as userid, u.firstname, u.lastname, p.id as portfolioid
                 FROM {evokeportfolio_reactions} r
-                INNER JOIN {evokeportfolio_submissions} su ON (su.id = r.submissionid AND su.userid = :userid)
+                INNER JOIN {evokeportfolio_submissions} su ON (su.id = r.submissionid)
                 INNER JOIN {evokeportfolio} p ON p.id = su.portfolioid
                 INNER JOIN {user} u ON u.id = r.userid
-                WHERE p.course = :courseid AND r.userid <> :userid2
-                ORDER BY r.id DESC
-                LIMIT ' . $limitnum;
+                WHERE p.course = :courseid AND r.userid <> :userid';
 
-        $params = [
-            'courseid' => $courseid,
-            'userid' => $USER->id,
-            'userid2' => $USER->id
-        ];
+        if (!empty($users)) {
+            list($insql, $inparams) = $DB->get_in_or_equal($users, SQL_PARAMS_NAMED);
+
+            $sql .= ' AND r.userid ' . $insql;
+        }
+
+        $sql .= ' ORDER BY r.id DESC LIMIT ' . $limitnum;
+
+        $inparams['courseid'] = $courseid;
+        $inparams['userid'] = $USER->id;
 
         if ($limitfrom) {
             $offset = $limitfrom * $limitnum;
@@ -92,7 +98,7 @@ class portfolio {
             $sql .= ' OFFSET ' . $offset;
         }
 
-        $records = $DB->get_records_sql($sql, $params);
+        $records = $DB->get_records_sql($sql, $inparams);
 
         if (!$records) {
             return [];

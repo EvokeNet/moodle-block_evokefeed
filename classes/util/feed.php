@@ -24,20 +24,23 @@ class feed {
 
         $usersutil = new \block_evokefeed\util\users();
 
-        $users = [];
+
         if ($params['type'] == 'team') {
             $users = $usersutil->get_user_groups_users($params['courseid']);
+        }
+
+        if (!isset($users) || $params['type'] == 'network') {
+            $users = [];
         }
 
         $portfoliosource = new portfolio();
         $badgesource = new badge();
 
-//        $comments = $portfoliosource->get_user_course_comment_feed($params['courseid'], $params['limitcomments']);
-//        $likes = $portfoliosource->get_user_course_like_feed($params['courseid'], $params['limitlikes']);
+        $comments = $portfoliosource->get_users_course_comment_feed($params['courseid'], $users, $params['limitcomments']);
+        $likes = $portfoliosource->get_users_course_like_feed($params['courseid'], $users, $params['limitlikes']);
         $badges = $badgesource->get_users_course_badge_feed($params['courseid'], $users, $params['limitbadges']);
 
-        $data = array_merge($badges);
-//        $data = array_merge($comments, $likes, $badges);
+        $data = array_merge($comments, $likes, $badges);
 
         if (!$data) {
             return [];
