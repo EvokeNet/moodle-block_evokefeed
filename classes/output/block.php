@@ -43,6 +43,7 @@ class block implements renderable, templatable {
      */
     public function export_for_template(renderer_base $output) {
         return [
+            'hasgroup' => true,
             'courseid' => $this->course->id
         ];
     }

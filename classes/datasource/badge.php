@@ -15,20 +15,23 @@ use block_evokefeed\util\userimg;
 defined('MOODLE_INTERNAL') || die();
 
 class badge {
-    public function get_user_course_badge_feed($courseid, $limitfrom = 0, $limitnum = 5) {
-        global $DB, $USER;
+    public function get_users_course_badge_feed($courseid, $users = [], $limitfrom = 0, $limitnum = 5) {
+        global $DB;
 
         $sql = 'SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash, b.name
                 FROM {badge_issued} bi
                 INNER JOIN {badge} b ON bi.badgeid = b.id
-                WHERE b.courseid = :courseid AND bi.userid = :userid
-                ORDER BY bi.id DESC
-                LIMIT ' . $limitnum;
+                WHERE b.courseid = :courseid ';
 
-        $params = [
-            'courseid' => $courseid,
-            'userid' => $USER->id
-        ];
+        if (!empty($users)) {
+            list($insql, $inparams) = $DB->get_in_or_equal($users, SQL_PARAMS_NAMED);
+
+            $sql .= ' AND bi.userid ' . $insql;
+        }
+
+        $sql .= ' ORDER BY bi.id DESC LIMIT ' . $limitnum;
+
+        $inparams['courseid'] = $courseid;
 
         if ($limitfrom) {
             $offset = $limitfrom * $limitnum;
@@ -36,7 +39,7 @@ class badge {
             $sql .= ' OFFSET ' . $offset;
         }
 
-        $records = $DB->get_records_sql($sql, $params);
+        $records = $DB->get_records_sql($sql, $inparams);
 
         if (!$records) {
             return [];

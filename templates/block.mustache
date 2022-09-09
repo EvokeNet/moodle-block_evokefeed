@@ -1,19 +1,70 @@
-{{> block_evokefeed/loading-placeholder }}
+<ul class="nav nav-pills" role="tablist">
+    {{#hasgroup}}
+        <li class="nav-item">
+            <button class="nav-link active"
+                    id="tab-team"
+                    data-toggle="tab"
+                    data-target="#team"
+                    type="button"
+                    role="tab"
+                    aria-controls="team"
+                    aria-selected="false"
+                    data-courseid="{{{courseid}}}"
+                    data-type="team"
+                    data-limitcomments="0"
+                    data-limitlikes="0"
+                    data-limitskilpoints="0"
+                    data-limitevocoins="0"
+                    data-limitbadges="0"
+                    data-hasmoreitems="true">
+                My group
+            </button>
+        </li>
+    {{/hasgroup}}
+    <li class="nav-item">
+        <button class="nav-link {{^hasgroup}}active{{/hasgroup}}"
+                id="tab-network"
+                data-toggle="tab"
+                data-target="#network"
+                type="button"
+                role="tab"
+                aria-controls="network"
+                aria-selected="false"
+                data-courseid="{{{courseid}}}"
+                data-type="network"
+                data-limitcomments="0"
+                data-limitlikes="0"
+                data-limitskilpoints="0"
+                data-limitevocoins="0"
+                data-limitbadges="0"
+                data-hasmoreitems="true">
+            Network
+        </button>
+    </li>
+</ul>
 
-<div class="block-evokefeed"
-     data-courseid="{{{courseid}}}"
-     data-limitcomments="0"
-     data-limitlikes="0"
-     data-limitskilpoints="0"
-     data-limitevocoins="0"
-     data-limitbadges="0"
-     data-hasmoreitems="true">
-
-    <div class="list-group"></div>
+<div class="tab-content" data-courseid="{{{courseid}}}">
+    {{#hasgroup}}
+        <div class="tab-pane fade show active" id="team" role="tabpanel" aria-labelledby="tab-team">
+            <div class="mt-2 timeline" data-courseid="{{{courseid}}}">
+                {{> block_evokefeed/loading-placeholder }}
+            </div>
+        </div>
+    {{/hasgroup}}
+    <div class="tab-pane fade {{^hasgroup}}show active{{/hasgroup}}" id="network" role="tabpanel" aria-labelledby="tab-network">
+        <div class="mt-2 timeline" data-courseid="{{{courseid}}}">
+            {{> block_evokefeed/loading-placeholder }}
+        </div>
+    </div>
 </div>
 
 {{#js}}
-    require(['block_evokefeed/load'], function(Load) {
-        Load.init();
+    require(['block_evokefeed/infinitescroll'], function(InfiniteScroll) {
+        {{#hasgroup}}
+            InfiniteScroll.init({{courseid}}, 'team');
+        {{/hasgroup}}
+        {{^hasgroup}}
+            InfiniteScroll.init({{courseid}}, 'network');
+        {{/hasgroup}}
     });
 {{/js}}

@@ -10,6 +10,7 @@
 
 namespace block_evokefeed\util;
 
+use context_course;
 use block_evokefeed\datasource\badge;
 use block_evokefeed\datasource\portfolio;
 
@@ -17,14 +18,26 @@ defined('MOODLE_INTERNAL') || die();
 
 class feed {
     public function get_data_from_sources($params) {
+        $context = context_course::instance($params['courseid']);
+
+        $badgeutil = new \block_evokefeed\datasource\badge();
+
+        $usersutil = new \block_evokefeed\util\users();
+
+        $users = [];
+        if ($params['type'] == 'team') {
+            $users = $usersutil->get_user_groups_users($params['courseid']);
+        }
+
         $portfoliosource = new portfolio();
         $badgesource = new badge();
 
-        $comments = $portfoliosource->get_user_course_comment_feed($params['courseid'], $params['limitcomments']);
-        $likes = $portfoliosource->get_user_course_like_feed($params['courseid'], $params['limitlikes']);
-        $badges = $badgesource->get_user_course_badge_feed($params['courseid'], $params['limitbadges']);
+//        $comments = $portfoliosource->get_user_course_comment_feed($params['courseid'], $params['limitcomments']);
+//        $likes = $portfoliosource->get_user_course_like_feed($params['courseid'], $params['limitlikes']);
+        $badges = $badgesource->get_users_course_badge_feed($params['courseid'], $users, $params['limitbadges']);
 
-        $data = array_merge($comments, $likes, $badges);
+        $data = array_merge($badges);
+//        $data = array_merge($comments, $likes, $badges);
 
         if (!$data) {
             return [];

@@ -2,40 +2,43 @@
     background-color: #f0f0f0;
 }
 
-.block-evokefeed {
-    height: calc(100vh - 140px);
+.block_evokefeed.block .nav-item:not(:first-child) {
+    margin-left: 0.5rem;
+}
+
+.block_evokefeed {
     overflow-y: scroll;
 }
 
-.block-evokefeed .list-group-item {
+.block_evokefeed .list-group-item {
     background-color: initial;
     border: none;
 }
 
-.block-evokefeed .list-group-item:hover,
-.block-evokefeed .list-group-item:focus {
+.block_evokefeed .list-group-item:hover,
+.block_evokefeed .list-group-item:focus {
     background-color: #e6e6e6;
 }
 
-.block-evokefeed .fadein {
-    -webkit-animation: block-evokefeed_fadein 1s ease-in-out;
-    -moz-animation: block-evokefeed_fadein 1s ease-in-out;
-    -o-animation: block-evokefeed_fadein 1s ease-in-out;
-    animation: block-evokefeed_fadein 1s ease-in-out;
+.block_evokefeed .fadein {
+    -webkit-animation: block_evokefeed_fadein 1s ease-in-out;
+    -moz-animation: block_evokefeed_fadein 1s ease-in-out;
+    -o-animation: block_evokefeed_fadein 1s ease-in-out;
+    animation: block_evokefeed_fadein 1s ease-in-out;
 }
 
-.block-evokefeed img {
+.block_evokefeed img {
     width: 40px;
     height: 40px;
     border-radius: 100%;
 }
 
-.block-evokefeed .list-group-item .images {
+.block_evokefeed .list-group-item .images {
     position: relative;
     width: 60px;
 }
 
-.block-evokefeed .list-group-item .images i {
+.block_evokefeed .list-group-item .images i {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -47,13 +50,13 @@
     font-size: 10px;
 }
 
-.block-evokefeed .list-group-item p {
+.block_evokefeed .list-group-item p {
     font-weight: 700;
     margin-bottom: 0;
     width: calc(100% - 60px);
 }
 
-@-webkit-keyframes block-evokefeed_fadein {
+@-webkit-keyframes block_evokefeed_fadein {
     0% {
         opacity: 0;
     }
@@ -63,7 +66,7 @@
     }
 }
 
-@-moz-keyframes block-evokefeed_fadein {
+@-moz-keyframes block_evokefeed_fadein {
     0% {
         opacity: 0;
     }
@@ -73,7 +76,7 @@
     }
 }
 
-@-o-keyframes block-evokefeed_fadein {
+@-o-keyframes block_evokefeed_fadein {
     0% {
         opacity: 0;
     }
@@ -83,7 +86,7 @@
     }
 }
 
-@keyframes block-evokefeed_fadein {
+@keyframes block_evokefeed_fadein {
     0% {
         opacity: 0;
     }

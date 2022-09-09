@@ -71,7 +71,7 @@ class block_evokefeed extends block_base {
             'all' => false,
             'course-view' => true,
             'course-view-social' => false,
-            'my' => true
+            'my' => false
         );
     }
 }

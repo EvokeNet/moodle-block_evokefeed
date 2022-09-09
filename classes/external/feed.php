@@ -24,6 +24,7 @@ class feed extends external_api {
     public static function load_parameters() {
         return new external_function_parameters([
             'courseid' => new external_value(PARAM_INT, 'The block course id'),
+            'type' => new external_value(PARAM_ALPHAEXT, 'Timeline type, group or network'),
             'limitcomments' => new external_value(PARAM_INT, 'The limit valur for comments'),
             'limitlikes' => new external_value(PARAM_INT, 'The limit valur for likes'),
             'limitskilpoints' => new external_value(PARAM_INT, 'The limit valur for skilpoints'),
@@ -37,6 +38,7 @@ class feed extends external_api {
      * Create chapter method
      *
      * @param int $courseid
+     * @param string $type
      * @param int $limitcomments
      * @param int $limitlikes
      * @param int $limitskilpoints
@@ -51,12 +53,13 @@ class feed extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function load($courseid, $limitcomments, $limitlikes, $limitskilpoints, $limitevocoins, $limitbadges, $hasmoreitems) {
+    public static function load($courseid, $type, $limitcomments, $limitlikes, $limitskilpoints, $limitevocoins, $limitbadges, $hasmoreitems) {
         global $PAGE;
 
         // We always must pass webservice params through validate_parameters.
         $params = self::validate_parameters(self::load_parameters(), [
             'courseid' => $courseid,
+            'type' => $type,
             'limitcomments' => $limitcomments,
             'limitlikes' => $limitlikes,
             'limitskilpoints' => $limitskilpoints,
