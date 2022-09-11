@@ -30,6 +30,7 @@ class feed extends external_api {
             'limitskilpoints' => new external_value(PARAM_INT, 'The limit valur for skilpoints'),
             'limitevocoins' => new external_value(PARAM_INT, 'The limit valur for evocoins'),
             'limitbadges' => new external_value(PARAM_INT, 'The limit valur for badges'),
+            'limitsubmissions' => new external_value(PARAM_INT, 'The limit valur for portfolio submissions'),
             'hasmoreitems' => new external_value(PARAM_BOOL, 'Load more items control')
         ]);
     }
@@ -44,6 +45,7 @@ class feed extends external_api {
      * @param int $limitskilpoints
      * @param int $limitevocoins
      * @param int $limitbadges
+     * @param int $limitsubmissions
      * @param bool $hasmoreitems
      *
      * @return array
@@ -53,7 +55,7 @@ class feed extends external_api {
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function load($courseid, $type, $limitcomments, $limitlikes, $limitskilpoints, $limitevocoins, $limitbadges, $hasmoreitems) {
+    public static function load($courseid, $type, $limitcomments, $limitlikes, $limitskilpoints, $limitevocoins, $limitbadges, $limitsubmissions, $hasmoreitems) {
         global $PAGE;
 
         // We always must pass webservice params through validate_parameters.
@@ -65,6 +67,7 @@ class feed extends external_api {
             'limitskilpoints' => $limitskilpoints,
             'limitevocoins' => $limitevocoins,
             'limitbadges' => $limitbadges,
+            'limitsubmissions' => $limitsubmissions,
             'hasmoreitems' => $hasmoreitems
         ]);
 
@@ -79,11 +82,9 @@ class feed extends external_api {
             $hasmoreitems = false;
         }
 
-        $feedutil = new \block_evokefeed\util\feed();
-
         $returndata = [
             'hasmoreitems' => $hasmoreitems,
-            'items' => $feedutil->sort_data($sourcesdata)
+            'items' => $sourcesdata
         ];
 
         return [

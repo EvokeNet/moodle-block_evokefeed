@@ -16,7 +16,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class badge {
     public function get_users_course_badge_feed($courseid, $users = [], $limitfrom = 0, $limitnum = 5) {
-        global $DB;
+        global $DB, $USER, $OUTPUT;
 
         $sql = 'SELECT bi.id, bi.badgeid, bi.userid, bi.dateissued, bi.uniquehash, b.name
                 FROM {badge_issued} bi
@@ -53,13 +53,14 @@ class badge {
             $url = new \moodle_url('/badges/badge.php', ['hash' => $record->uniquehash]);
 
             $data[] = [
-                'id' => $record->id,
-                'timecreated' => $record->dateissued,
-                'icon' => 'fa-certificate',
-                'userimg' => $userimg::get_image($record->userid),
-                'userfullname' => $userimg::get_fullname($record->userid),
-                'text' => get_string('portfolio_earnedbadge_string', 'block_evokefeed', $record->name),
-                'url' => $url->out()
+                'timecreated' => $record->timecreated,
+                'output' => $OUTPUT->render_from_template('block_evokefeed/timeline-item-portfoliobadge', [
+                    'userimg' => $userimg::get_image($record->userid),
+                    'icon' => 'fa-certificate',
+                    'userfullname' => $userimg::get_fullname($record->userid),
+                    'url' => $url->out(),
+                    'itsmine' => $USER->id === $record->userid
+                ])
             ];
         }
 

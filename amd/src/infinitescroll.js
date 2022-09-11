@@ -57,6 +57,7 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
         const limitskilpoints = parseInt(this.controlbutton.dataset.limitskilpoints);
         const limitevocoins = parseInt(this.controlbutton.dataset.limitevocoins);
         const limitbadges = parseInt(this.controlbutton.dataset.limitbadges);
+        const limitsubmissions = parseInt(this.controlbutton.dataset.limitsubmissions);
         const hasmoreitems = this.controlbutton.dataset.hasmoreitems === 'true';
 
         const request = Ajax.call([{
@@ -69,6 +70,7 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
                 limitskilpoints: limitskilpoints,
                 limitevocoins: limitevocoins,
                 limitbadges: limitbadges,
+                limitsubmissions: limitsubmissions,
                 hasmoreitems: hasmoreitems
             }
         }]);
@@ -81,6 +83,7 @@ define(['jquery', 'core/ajax', 'core/templates'], function($, Ajax, Templates) {
             this.controlbutton.dataset.limitskilpoints = limitskilpoints + 1;
             this.controlbutton.dataset.limitevocoins = limitevocoins + 1;
             this.controlbutton.dataset.limitbadges = limitbadges + 1;
+            this.controlbutton.dataset.limitsubmissions = limitsubmissions + 1;
             this.controlbutton.dataset.hasmoreitems = data.hasmoreitems;
 
             this.hasmoreitems = data.hasmoreitems;
