@@ -12,6 +12,7 @@ namespace block_evokefeed\util;
 
 use block_evokefeed\datasource\badge;
 use block_evokefeed\datasource\portfolio;
+use block_evokefeed\datasource\portfoliobuilder;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -27,7 +28,7 @@ class feed {
             $users = [];
         }
 
-        $portfoliosource = new portfolio();
+        $portfoliosource = new portfoliobuilder();
         $badgesource = new badge();
 
         $badges = $badgesource->get_users_course_badge_feed($params['courseid'], $users, $params['limitbadges']);
