@@ -136,7 +136,7 @@ class portfoliobuilder {
 
         $sql = 'SELECT e.id, e.timecreated, e.userid, p.course, u.firstname, u.lastname, p.id as portfolioid
                 FROM {portfoliobuilder_entries} e
-                INNER JOIN {evokeportfolio} p ON p.id = e.entryid
+                INNER JOIN {evokeportfolio} p ON p.id = e.portfolioid
                 INNER JOIN {user} u ON u.id = e.userid
                 WHERE p.course = :courseid AND e.userid <> :userid';
 
