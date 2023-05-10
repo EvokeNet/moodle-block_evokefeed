@@ -53,9 +53,7 @@ class portfoliobuilder {
         $data = [];
 
         foreach ($records as $record) {
-            $coursemodule = get_coursemodule_from_instance('portfoliobuilder', $record->portfolioid, $record->course);
-
-            $url = new \moodle_url('/mod/portfoliobuilder/portfolio.php', ['id' => $coursemodule->id, 'u' => $record->usersubmission]);
+            $url = new \moodle_url('/mod/portfoliobuilder/portfolio.php', ['id' => $record->course, 'u' => $record->usersubmission]);
 
             $data[] = [
                 'timecreated' => $record->timecreated,
@@ -111,9 +109,7 @@ class portfoliobuilder {
         $data = [];
 
         foreach ($records as $record) {
-            $coursemodule = get_coursemodule_from_instance('evokeportfolio', $record->portfolioid, $record->course);
-
-            $url = new \moodle_url('/mod/portfoliobuilder/portfolio.php', ['id' => $coursemodule->id, 'u' => $record->usersubmission]);
+            $url = new \moodle_url('/mod/portfoliobuilder/portfolio.php', ['id' => $record->course, 'u' => $record->usersubmission]);
 
             $data[] = [
                 'timecreated' => $record->timecreated,
@@ -136,7 +132,7 @@ class portfoliobuilder {
 
         $sql = 'SELECT e.id, e.timecreated, e.userid, p.course, u.firstname, u.lastname, p.id as portfolioid
                 FROM {portfoliobuilder_entries} e
-                INNER JOIN {evokeportfolio} p ON p.id = e.portfolioid
+                INNER JOIN {portfoliobuilder} p ON p.id = e.portfolioid
                 INNER JOIN {user} u ON u.id = e.userid
                 WHERE p.course = :courseid AND e.userid <> :userid';
 
@@ -168,9 +164,7 @@ class portfoliobuilder {
         $data = [];
 
         foreach ($records as $record) {
-            $coursemodule = get_coursemodule_from_instance('evokeportfolio', $record->portfolioid, $record->course);
-
-            $url = new \moodle_url('/mod/evokeportfolio/portfolio.php', ['id' => $coursemodule->id, 'u' => $record->userid]);
+            $url = new \moodle_url('/mod/portfoliobuilder/portfolio.php', ['id' => $record->course, 'u' => $record->userid]);
 
             $data[] = [
                 'timecreated' => $record->timecreated,
