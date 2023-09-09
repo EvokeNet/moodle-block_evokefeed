@@ -16,7 +16,7 @@ class users {
             return false;
         }
 
-        return $this->get_groups_members_ids($groups, \context_course::instance($courseid));
+        return $this->get_groups_members_ids($groups, \core\context\course::instance($courseid));
     }
 
     public function get_course_enrolled_users($courseid) {
